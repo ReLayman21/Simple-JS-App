@@ -1,0 +1,31 @@
+body {
+  background-color: #f2e5e5;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  color: #2b3a55;
+}
+
+.button-class {
+  border-radius: 50px;
+  border-width: 0;
+  box-shadow: #b9fff8, white 0 3px 4px 0;
+  background-color: #6fedd6;
+  color: #2b3a55;
+  cursor: grab;
+  display: inline-block;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+  height: 30px;
+  padding: 0 25px;
+  transition: all 200ms;
+}
+
+h1 {
+  text-align: center;
+  font-size: 50px;
+}
+
+* {
+  box-sizing: border-box;
+}

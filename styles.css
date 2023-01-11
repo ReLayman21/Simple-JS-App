@@ -1,21 +1,35 @@
+:root {
+  --primary-color:#b9fff8;
+  --secondary-color:#6fedd6;
+  --tertiary-color:#FF9551;
+  --fourth-color:  #FF4A4A
+  --fifth-color: #2b3a55;
+  --black: #000;
+  --white: #fff;
+  --font-family: "Poppins";
+  --h1-font: 30px;
+  --h2-font: 24px;
+  --h3-font: 18px;
+}
+
+html,
 body {
-  background-color: #f2e5e5;
   font-family: "Poppins", sans-serif;
   font-weight: 400;
-  color: #2b3a55;
+  font-size: 16px;
 }
 
 .button-class {
-  border-radius: 50px;
-  border-width: 0;
+  border-radius: 30px;
+  border: 2px solid var(--secondary-color);
   box-shadow: #b9fff8, white 0 3px 4px 0;
   background-color: #6fedd6;
-  color: #2b3a55;
+  color: var(--white);
+  padding: 16px 26px;
   cursor: grab;
   display: inline-block;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: 600;
-  font-size: 1em;
+  font-size: medium;
+  margin: 8px 2px;
   height: 30px;
   padding: 0 25px;
   transition: all 200ms;
@@ -28,4 +42,55 @@ h1 {
 
 * {
   box-sizing: border-box;
+}
+
+ #modal-container {
+  position: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  overflow: auto;
+  display:grid;
+  text-align: center;
+} 
+
+
+.modal {
+  margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 15px;
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+}
+
+.modal-close {
+  float: right;
+  border: 0;
+  background: none;
+  color: #777;
+  text-decoration: underline;
+}
+
+.modal h1 {
+  margin-top: 0;
+}
+
+.modal p {
+  margin-bottom: 0;
+}
+
+#modal-container {
+  display: none;
+}
+
+#model-container.is-visible {
+  display: block;
 }

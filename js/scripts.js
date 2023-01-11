@@ -25,12 +25,6 @@ let pokemonRepository = (function () {
     repository.appendChild(listPokemon);
   }
 
-  function showDetails(pokemon) {
-    loadDetails(pokemon).then(function () {
-      console.log(pokemon);
-    });
-  }
-
   function loadList() {
     return fetch(apiUrl)
       .then(function (response) {
@@ -65,6 +59,82 @@ let pokemonRepository = (function () {
         console.error(e);
       });
   }
+
+  function showDetails(pokemon) {
+    loadDetails(pokemon).then(function () {
+      console.log(pokemon);
+    });
+  }
+
+  let modalContainer = document.querySelector("#modal-container");
+
+  function showModal(title, text) {
+    modalContainer.innerHTML = "";
+    let modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    let closeButtonElement = document.createElement("button");
+    closeButtonElement.classList.add("modal-close");
+    closeButtonElement.innerText = "Close";
+    closeButtonElement.addEventListener("click", hideModal);
+
+    let titleElement = document.createElement("h1");
+    titleElement.innerText = title;
+
+    let textElement = document.createElement("p");
+    textElement.innerText = text;
+
+    modal.appendChild(closeButtonElement);
+    modal.appendChild(titleElement);
+    modal.appendChild(textElement);
+    modalContainer.appendChild(modal);
+
+    modalContainer.classList.add("is-visible");
+  }
+
+  function hideModal() {
+    modalContainer.classList.remove("is-visible");
+  }
+
+  function showDialog() {
+    showModal(title, text);
+
+    let modal = modalContainer.querySelector(".modal");
+
+    let confirmButton = document.createElement("button");
+    confirmButton.classList.add("modal-confirm");
+    confirmButton.innerText = "Confirm";
+
+    let cancelButton = document.createElement("button");
+    cancelButton.classList.add("modal-cancel");
+    cancelButton.innerText = "Cancel";
+
+    modal.appendChild(confirmButton);
+    modal.appendChild(cancelButton);
+
+    confirmButton.focus();
+  }
+
+  document.querySelector("#show-dialog").addEventListener("click", () => {
+    showDialog("Confirm action", "Are you sure you want to do this?");
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalContainer.classList.contains("is-visible")) {
+      hideModal();
+    }
+  });
+
+  modalContainer.addEventListener("click", (e) => {
+    let target = e.target;
+    if (target === modalContainer) {
+      hideModal();
+    }
+  });
+
+  document.querySelector("#show-modal").addEventListener("click", () => {
+    showModal("Model title", "This is the modal content!");
+  });
 
   return {
     add: add,

@@ -92,11 +92,19 @@ let pokemonRepository = (function () {
     modalContainer.classList.add("is-visible");
   }
 
+  let dialogPromiseReject;
+
   function hideModal() {
+    let modalContainer = document.querySelector("#model-container");
     modalContainer.classList.remove("is-visible");
+
+    if (dialogPromiseReject) {
+      dialogPromiseReject();
+      dialogPromiseReject = null;
+    }
   }
 
-  function showDialog() {
+  function showDialog(title, text) {
     showModal(title, text);
 
     let modal = modalContainer.querySelector(".modal");
@@ -113,10 +121,27 @@ let pokemonRepository = (function () {
     modal.appendChild(cancelButton);
 
     confirmButton.focus();
+
+    return new Promise((resolve, reject) => {
+      cancelButton.addEventListener("click", hideModal);
+      confirmButton.addEventListener("click", () => {
+        dialogPromiseReject = null;
+        hideModal();
+        reject();
+      });
+      dialogPromiseReject = reject;
+    });
   }
 
   document.querySelector("#show-dialog").addEventListener("click", () => {
-    showDialog("Confirm action", "Are you sure you want to do this?");
+    showDialog("Confirm action", "Are you sure you want to do this?").then(
+      function () {
+        alert("Confirmed!");
+      },
+      () => {
+        alert("Not confirmed");
+      }
+    );
   });
 
   window.addEventListener("keydown", (e) => {

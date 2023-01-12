@@ -6,7 +6,7 @@
   --fifth-color: #2b3a55;
   --black: #000;
   --white: #fff;
-  --font-family: "Poppins";
+  --font-family: "Nunito";
   --h1-font: 30px;
   --h2-font: 24px;
   --h3-font: 18px;
@@ -14,26 +14,31 @@
 
 html,
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: 400;
   font-size: 16px;
 }
 
 .button-class {
-  border-radius: 30px;
+  border-radius: 10px;
   border: 2px solid var(--secondary-color);
   box-shadow: #b9fff8, white 0 3px 4px 0;
   background-color: #6fedd6;
   color: var(--white);
-  padding: 16px 26px;
   cursor: grab;
-  display: inline-block;
-  font-size: medium;
-  margin: 8px 2px;
-  height: 30px;
-  padding: 0 25px;
-  transition: all 200ms;
+  font-size:25px;
+  font-family: "Nunito";
+  margin: auto;
+  text-align: center;
+  padding: 1em;
 }
+.pokemon-list {
+  display: grid;
+  grid-template-columns: 300px 300px 300px;
+  gap: 1em;
+  text-align: center;
+}
+
 
 h1 {
   text-align: center;
@@ -69,6 +74,8 @@ h1 {
   width: 100%;
   max-width: 700px;
   text-align: left;
+  border: 1em solid #FF9551;
+  border-radius: 10% 40%/ 50% 20%;
 }
 
 .modal-close {
@@ -77,6 +84,7 @@ h1 {
   background: none;
   color: #777;
   text-decoration: underline;
+  padding-top: 30px;
 }
 
 .modal h1 {
@@ -85,9 +93,19 @@ h1 {
 
 .modal p {
   margin-bottom: 0;
+  padding-left: 20px;
 }
 
 #modal-container {
   display: none;
-  
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+li {
+  list-style-type: none;
 }

@@ -4,6 +4,7 @@ let pokemonRepository = (function () {
 
   // function to add new pokemon
   function add(pokemon) {
+    "name" in pokemon && "detailsUrl" in pokemon && "imageUrl" in pokemon;
     pokemonList.push(pokemon);
   }
 
@@ -66,12 +67,16 @@ let pokemonRepository = (function () {
 
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
-      console.log(pokemon);
+      showModal(
+        pokemon.name,
+        pokemon.name + "'s height is: " + pokemon.height,
+        pokemon.imageUrl
+      );
     });
   }
 
   // function for Modal
-  function showModal(pokemon) {
+  function showModal(title, text, img) {
     let modalContainer = document.querySelector("#modal-container");
     modalContainer.innerHTML = "";
     let modal = document.createElement("div");
@@ -83,38 +88,48 @@ let pokemonRepository = (function () {
     closeButtonElement.addEventListener("click", hideModal);
 
     let titleElement = document.createElement("h1");
-    titleElement.innerText = pokemon.name;
+    titleElement.innerText = title;
 
-    let heightElement = document.createElement("p");
-    heightElement.innerText = `Height:  + ${pokemon.height}`;
+    let textElement = document.createElement("p");
+    textElement.innerText = text;
 
-    let typesElement = document.createElement("p");
-    typesElement.innerText = `Type(s):  + ${pokemon.types}`;
+    let imgElement = document.createElement("img");
+    imgElement.setAttribute("src", img);
+    imgElement.setAttribute("alt", "Pokemon Image");
+    imgElement.setAttribute("width", 250);
+    imgElement.setAttribute("height", 250);
 
     modal.appendChild(closeButtonElement);
     modal.appendChild(titleElement);
-    modal.appendChild(heightElement);
-    modal.appendChild(typesElement);
+    modal.appendChild(textElement);
+    modal.appendChild(imgElement);
     modalContainer.appendChild(modal);
 
     modalContainer.classList.add("is-visible");
 
     modalContainer.addEventListener("click", (e) => {
       let target = e.target;
-      console.log("target: ", e.target, modalContainer);
       if (target === modalContainer) {
         hideModal();
       }
     });
   }
 
+  let dialogPromiseReject;
+
   // function to close Modal
   function hideModal() {
     let modalContainer = document.querySelector("#modal-container");
     modalContainer.classList.remove("is-visible");
+
+    if (dialogPromiseReject) {
+      dialogPromiseReject();
+      dialogPromiseReject = null;
+    }
   }
 
   window.addEventListener("keydown", (e) => {
+    let modalContainer = document.querySelector("#modal-container");
     if (e.key === "Escape" && modalContainer.classList.contains("is-visible")) {
       hideModal();
     }

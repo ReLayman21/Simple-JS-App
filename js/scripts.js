@@ -64,12 +64,26 @@ let pokemonRepository = (function () {
         console.error(e);
       });
   }
+  function heightDisplay(value) {
+    let pokemonMeters = value / 10;
+    let inches = Math.floor(pokemonMeters / 0.0254);
+    let feet = Math.floor(inches / 12);
+    let remainingInches = inches % 12;
+
+    return `${pokemonMeters}m (${feet}' ${remainingInches}")`;
+  }
+
+  function displayString(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
       showModal(
-        pokemon.name,
-        pokemon.name + "'s height is: " + pokemon.height,
+        `${displayString(pokemon.name)}`,
+        `${displayString(pokemon.name)}` +
+          "'s height is: " +
+          `${heightDisplay(pokemon.height)}`,
         pokemon.imageUrl
       );
     });
@@ -96,8 +110,8 @@ let pokemonRepository = (function () {
     let imgElement = document.createElement("img");
     imgElement.setAttribute("src", img);
     imgElement.setAttribute("alt", "Pokemon Image");
-    imgElement.setAttribute("width", 250);
-    imgElement.setAttribute("height", 250);
+    imgElement.setAttribute("width", 200);
+    imgElement.setAttribute("height", 200);
 
     modal.appendChild(closeButtonElement);
     modal.appendChild(titleElement);

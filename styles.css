@@ -12,44 +12,78 @@
   --h3-font: 18px;
 }
 
-html,
 body {
   font-family: "Nunito", sans-serif;
   font-weight: 400;
   font-size: 16px;
+  line-height: 1.5;
+  margin-top: 80px;
 }
-
-.button-class {
-  border-radius: 10px;
-  border: 2px solid var(--secondary-color);
-  box-shadow: #b9fff8, white 0 3px 4px 0;
-  background-color: #6fedd6;
-  color: var(--white);
-  cursor: grab;
-  font-size:25px;
-  font-family: "Nunito";
-  margin: auto;
-  text-align: center;
-  padding: 1em;
-}
-.pokemon-list {
-  display: grid;
-  grid-template-columns: 300px 300px 300px;
-  gap: 1em;
-  text-align: center;
-}
-
 
 h1 {
   text-align: center;
   font-size: 50px;
+  font-weight: 700;
 }
 
-* {
-  box-sizing: border-box;
+.pokedex {
+  display: flex;
+  margin-top: 50px;
+  flex-direction: column;
+  text-align: center;
 }
 
- #modal-container.is-visible{
+.pokemon-header {
+  padding: 15px;
+  font-weight: 700;
+}
+
+.pokemon-button {
+  width: 40%;
+  background-color: var(--secondary-color);
+  border: none;
+}
+
+.button:hover {
+  background-color: var(--primary-color);
+  transition-duration: 100;
+}
+
+.btn-outline-info{
+  background-color: var(--white);
+  border-color: var(--white);
+}
+
+.btn-outline-info:hover{
+  background-color: var(--primary-color);
+  transition-duration: 100ms;
+  border-color: var(--secondary-color);
+}
+
+.input-group-btn {
+  background-color: white;
+}
+
+.list-group-item {
+  border: none;
+  background-color: var(--primary-color);
+}
+
+.modal {
+  text-align: center}
+
+.pokemon-img {
+  width: 200px;
+  height: 200px;
+}
+
+.modal-dialog {
+  border: 8px solid;
+  border-radius: 10px;
+  border-color: var(--fourth-color);
+}
+
+ /* #modal-container.is-visible{
   position: fixed;
   padding: 20px;
   box-sizing: border-box;
@@ -62,21 +96,7 @@ h1 {
   overflow: auto;
   display:grid;
   text-align: center;
-} 
-
-
-.modal {
-  margin: auto;
-  display: inline-block;
-  box-sizing: border-box;
-  background: #fff;
-  padding: 15px;
-  width: 100%;
-  max-width: 700px;
-  text-align: left;
-  border: 1em solid #FF9551;
-  border-radius: 10% 40%/ 50% 20%;
-}
+}  
 
 .modal-close {
   float: right;
@@ -94,18 +114,10 @@ h1 {
 .modal p {
   margin-bottom: 0;
   padding-left: 20px;
-}
+} 
 
 #modal-container {
   display: none;
-}
+}*/
 
-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 
-li {
-  list-style-type: none;
-}

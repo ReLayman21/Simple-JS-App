@@ -17,8 +17,8 @@ let pokemonRepository = (function () {
   function addListItem(pokemon) {
     let listItem = $('<li class="list-group-item"></li>');
     let button = $(
-      'button class="pokemon-button btn btn-info" data-target="pokemon-modal" data-toggle="modal">' +
-        pokemon.name +
+      '<button class="pokemon-button btn btn-info" data-target="#pokemon-modal" data-toggle="modal">' +
+        displayString(pokemon.name) +
         "</button>"
     );
 
@@ -70,18 +70,18 @@ let pokemonRepository = (function () {
       });
   }
 
-  // function heightDisplay(value) {
-  //   let pokemonMeters = value / 10;
-  //   let inches = Math.floor(pokemonMeters / 0.0254);
-  //   let feet = Math.floor(inches / 12);
-  //   let remainingInches = inches % 12;
+  function heightDisplay(value) {
+    let pokemonMeters = value / 10;
+    let inches = Math.floor(pokemonMeters / 0.0254);
+    let feet = Math.floor(inches / 12);
+    let remainingInches = inches % 12;
 
-  //   return `${pokemonMeters}m (${feet}' ${remainingInches}")`;
-  // }
+    return `${pokemonMeters}m (${feet}' ${remainingInches}")`;
+  }
 
-  // function displayString(str) {
-  //   return str.charAt(0).toUpperCase() + str.slice(1);
-  // }
+  function displayString(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
@@ -95,10 +95,10 @@ let pokemonRepository = (function () {
     let modalTitle = $(".modal-title");
 
     modalBody.empty();
-    modalTitle.text(pokemon.name);
+    modalTitle.text(displayString(pokemon.name));
 
-    let height = $("<p>" + "Height: " + pokemon.height + "</p>");
-    let image = $('<img class="pokemon-img" src" ' + pokemon.imageUrl + '" />');
+    let height = $("<p>" + "Height: " + heightDisplay(pokemon.height) + "</p>");
+    let image = $('<img class="pokemon-img" src="' + pokemon.imageUrl + '" />');
     let types = $("<p>" + "Types: " + pokemon.types + "</p>");
     let abilities = $("<p>" + "Abilities: " + pokemon.abilities + "</p>");
 
@@ -115,6 +115,7 @@ let pokemonRepository = (function () {
     loadList: loadList,
     loadDetails: loadDetails,
     showDetails: showDetails,
+    showDetailsModal: showDetailsModal,
   };
 })();
 

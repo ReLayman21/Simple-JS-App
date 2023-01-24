@@ -1,6 +1,6 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
-  let printedList = docu.querySelector(".pokemon-list");
+  let printedList = document.querySelector(".pokemon-list");
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=30";
   let inputField = document.querySelector(".search");
   let pokemonModal = document.querySelector(".modal-dialog");
@@ -36,7 +36,7 @@ let pokemonRepository = (function () {
     ) {
       pokemonList.push(pokemon);
     } else {
-      console.error("Add pokemon using correct format: {name:, detailsUrl:");
+      console.error("Add pokemon using correct format: {name:, detailsUrl:}");
     }
   }
 
@@ -113,7 +113,7 @@ let pokemonRepository = (function () {
       button.setAttribute("data-target", ".modal");
 
       let pokemonImage = document.createElement("img");
-      pokemonImage.src = pokemon.frontImageUrl;
+      pokemonImage.src = pokemon.ImageUrl;
       button.appendChild(listItem);
 
       button.addEventListener("click", function () {

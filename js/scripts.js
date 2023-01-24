@@ -166,37 +166,58 @@ let pokemonRepository = (function () {
 
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
-      showDetailsModal(pokemon);
+      let modalTitle = document.querySelector(".modal-title");
+      let modalBody = document.querySelector(".modal-body");
+
+      modalTitle.innerHTML = "";
+      modalBody.innerHTML = "";
+
+      let nameElement = document.querySelector(".modal-title");
+      nameElement.innerText =
+        pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+
+      let imageElement = document.createElement("img");
+      imageElement.classList.add("modal-img");
+      imageElement.src = pokemon.imageUrl;
+
+      let modalText = document.createElement("div");
+      modalText.classList.add("modal-text");
+
+      let heightElement = document.createElement("p");
+      heightElement.innerText = "Height: " + pokemon.height / 10 + "m";
+
+      let typesElement = document.createElement("p");
+      typesElement.innerText = "Types: " + pokemon.types;
+
+      let abilitiesElement = document.createElement("p");
+      abilitiesElement.innerText = "Abilities: " + pokemon.abilities;
+
+      modalBody.append(imageElement);
+      modalBody.append(heightElement);
+      modalBody.append(typesElement);
+      modalBody.append(abilitiesElement);
     });
   }
 
-  // function for Modal
-  function showDetailsModal(pokemon) {
-    let modalBody = $(".modal-body");
-    let modalTitle = $(".modal-title");
-
-    modalBody.empty();
-    modalTitle.text(displayString(pokemon.name));
-
-    let height = $("<p>" + "Height: " + heightDisplay(pokemon.height) + "</p>");
-    let image = $('<img class="pokemon-img" src="' + pokemon.imageUrl + '" />');
-    let types = $("<p>" + "Types: " + pokemon.types + "</p>");
-    let abilities = $("<p>" + "Abilities: " + pokemon.abilities + "</p>");
-
-    modalBody.append(image);
-    modalBody.append(height);
-    modalBody.append(types);
-    modalBody.append(abilities);
-  }
+  window.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      hideModal();
+    }
+  });
 
   return {
+    showLoadingSpinner: showLoadingSpinner,
+    hideLoadingSpinner: hideLoadingSpinner,
     add: add,
+    removeList: removeList,
+    hideModal: hideModal,
+    showErrorMessage: showErrorMessage,
+    loadList: loadList,
     getAll: getAll,
     addListItem: addListItem,
-    loadList: loadList,
+    filterPokemon: filterPokemon,
     loadDetails: loadDetails,
     showDetails: showDetails,
-    showDetailsModal: showDetailsModal,
   };
 })();
 

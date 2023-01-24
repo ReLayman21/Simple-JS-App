@@ -1,11 +1,94 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
+  let printedList = docu.querySelector(".pokemon-list");
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=30";
-  let pokemonListElement = $(".pokemon-list");
+  let inputField = document.querySelector(".search");
+  let pokemonModal = document.querySelector(".modal-dialog");
+
+  // function to add loading spinner
+  function showLoadingSpinner(spinnerLocation) {
+    let spinnerContainer = document.createElement("div");
+    spinnerContainer.classList.add("text-center");
+
+    let loadingSpinner = document.createElement("div");
+    loadingSpinner.classList.add("spinner-border");
+    loadingSpinner.setAttribute("role", "status");
+
+    let spinnerText = document.createElement("div");
+    spinnerText.classList.add("sr-only");
+    spinnerText.innerText = "Finding Pokemon...";
+
+    loadingSpinner.appendChild(spinnerText);
+    spinnerContainer.appendChild(loadingSpinner);
+    spinnerLocation.appendChild(spinnerContainer);
+  }
+
+  function hideLoadingSpinner(spinnerLocation) {
+    spinnerLocation.removeChild(spinnerLocation.lastChild);
+  }
 
   // function to add new pokemon
   function add(pokemon) {
-    pokemonList.push(pokemon);
+    // makes sure to have correct input types of name and detailsUrl
+    if (
+      typeof pokemon === "object" &&
+      Object.keys(pokemon).includes("name" && "detailsUrl")
+    ) {
+      pokemonList.push(pokemon);
+    } else {
+      console.error("Add pokemon using correct format: {name:, detailsUrl:");
+    }
+  }
+
+  // will be called if there is a loading error when searching
+  function removeList() {
+    printedList.innerHTML = "";
+  }
+
+  // will be called in there is a loading error and also manually hiding modal
+  function hideModal() {
+    pokemonModal.classList.add("hidden");
+  }
+
+  // error message
+  function showErrorMessage(message) {
+    let errorMessage = document.createElement("p");
+    errorMessage.classList.add("error-message");
+    errorMessage.classList.add("col-6");
+    errorMessage.innerText = message;
+
+    printedList.appendChild(errorMessage);
+  }
+
+  // function gets pokemon list from pokemonAPI
+  function loadList() {
+    let spinnerLocation = document.querySelector(".main");
+    showLoadingSpinner(spinnerLocation);
+
+    return fetch(apiUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (json) {
+        hideLoadingSpinner(spinnerLocation);
+        pokemonArray = json.results;
+        pokemonArray.forEach(function (item) {
+          let pokemon = {
+            name: item.name,
+            detailsUrl: item.url,
+          };
+          add(pokemon);
+        });
+      })
+      .catch(function (e) {
+        hideLoadingSpinner(spinnerLocation);
+        removeList();
+        hideModal();
+        showErrorMessage(
+          "The Pokemon are not around right now. Please try again later."
+        );
+        console.error(e);
+      });
   }
 
   // function returns all of the items in the pokemonList
@@ -15,43 +98,54 @@ let pokemonRepository = (function () {
 
   // function adds pokemon to the list
   function addListItem(pokemon) {
-    let listItem = $('<li class="list-group-item"></li>');
-    let button = $(
-      '<button class="pokemon-button btn btn-info" data-target="#pokemon-modal" data-toggle="modal">' +
-        displayString(pokemon.name) +
-        "</button>"
-    );
+    loadDetails(pokemon).then(function () {
+      let listItem = document.createElement("li");
+      listItem.classList.add("col");
 
-    listItem.append(button);
-    pokemonListElement.append(listItem);
+      let button = document.createElement("button");
+      let buttonText = document.createElement("h2");
+      button.appendChild(buttonText);
+      // Capitalize first letter
+      buttonText.innerText =
+        pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+      button.classList.add("pokemon-button");
+      button.setAttribute("data-toggle", "modal");
+      button.setAttribute("data-target", ".modal");
 
-    button.on("click", function () {
-      showDetails(pokemon);
+      let pokemonImage = document.createElement("img");
+      pokemonImage.src = pokemon.frontImageUrl;
+      button.appendChild(listItem);
+
+      button.addEventListener("click", function () {
+        showDetails(pokemon);
+      });
     });
   }
 
-  // function gets pokemon list from pokemonAPI
-  function loadList() {
-    return fetch(apiUrl)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (json) {
-        json.results.forEach(function (item) {
-          let pokemon = {
-            name: item.name,
-            detailsUrl: item.url,
-          };
-          add(pokemon);
-        });
-      })
-      .catch(function (e) {
-        console.error(e);
-      });
+  // Search box functionality
+  function filterPokemon(query) {
+    return pokemonList.filter(function (pokemon) {
+      let pokemonLowerCase = pokemon.name.toLowerCase();
+      let queryLowerCase = query.toLowerCase();
+      return pokemonLowerCase.startsWith(queryLowerCase);
+    });
   }
+  inputField.addEventListener("input", function () {
+    let query = inputField.value;
+    let filteredList = filterPokemon(query);
+    removeList();
+    if (filteredList.length === 0) {
+      showErrorMessage("No pokemon match your criteria. ");
+    } else {
+      filteredList.forEach(addListItem);
+    }
+  });
 
   // function loads details of pokemon
   function loadDetails(item) {
+    let spinnerLocation = document.querySelector(".modal-body");
+    showLoadingSpinner(spinnerLocation);
+
     let url = item.detailsUrl;
     return fetch(url)
       .then(function (response) {
@@ -68,19 +162,6 @@ let pokemonRepository = (function () {
       .catch(function (e) {
         console.error(e);
       });
-  }
-
-  function heightDisplay(value) {
-    let pokemonMeters = value / 10;
-    let inches = Math.floor(pokemonMeters / 0.0254);
-    let feet = Math.floor(inches / 12);
-    let remainingInches = inches % 12;
-
-    return `${pokemonMeters}m (${feet}' ${remainingInches}")`;
-  }
-
-  function displayString(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   function showDetails(pokemon) {

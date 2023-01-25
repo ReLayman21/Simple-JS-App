@@ -120,7 +120,10 @@ let pokemonRepository = (function () {
       pokemonImage.src = pokemon.frontImageUrl;
       button.appendChild(pokemonImage);
 
-      button.addEventListener("click", function () {
+      listPokemon.appendChild(button);
+      printedList.appendChild(listPokemon);
+
+      button.addEventListener("click", function (e) {
         showDetails(pokemon);
       });
     });
@@ -205,7 +208,7 @@ let pokemonRepository = (function () {
       let abilitiesElement = document.createElement("p");
       abilitiesElement.innerText = "Abilities: " + pokemon.abilities;
 
-      modalBody.append(imageElement);
+      modalBody.append(imageElementFront);
       modalBody.append(modalText);
       modalBody.append(heightElement);
       modalBody.append(typesElement);

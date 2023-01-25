@@ -6,10 +6,10 @@
   --fifth-color: #2b3a55;
   --black: #000;
   --white: #fff;
-  --font-family: "Nunito";
-  --h1-font: 30px;
-  --h2-font: 24px;
-  --h3-font: 18px;
+}
+
+.hidden {
+  display: none;
 }
 
 body {
@@ -26,63 +26,92 @@ h1 {
   font-weight: 700;
 }
 
-.pokedex {
+h2 {
+  font-family: "Nunito", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+li {
   display: flex;
-  margin-top: 50px;
-  flex-direction: column;
+  justify-content: center;
+}
+
+main {
+  margin-top: 120px;
+}
+
+ul {
+  justify-content: center;
+  list-style-type: none;
+}
+
+.spinner-border{
+  color: var(--primary-color);
+  margin: 50px
+}
+
+.error-message {
+  font-size: 16px;
+  padding-top: 100px;
   text-align: center;
 }
 
-.pokemon-header {
-  padding: 15px;
-  font-weight: 700;
+.modal-content {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color:  var(--fourth-color);  
+  border-radius: 15px;
+  color: var(--black);
+  height: 400px;
+  margin: auto;
+  padding: 20px;
+  touch-action: pinch-zoom;
+  width: 300px;
+}
+
+.modal-header {
+  border: none;
+}
+
+.modal-title {
+  font-size: 24px;
+}
+
+.modal-img{
+  margin-top: 15px;
+  width: 50%;
+}
+
+.modal-text {
+  bottom: 0;
+  padding: 16px 16px 16px 0;
+  position: absolute;
+  text-align: left;
+}
+
+.close:focus {
+  outline: none;
 }
 
 .pokemon-button {
-  width: 40%;
-  background-color: var(--secondary-color);
-  border: none;
-}
-
-.button:hover {
-  background-color: var(--primary-color);
-  transition-duration: 100;
-}
-
-.btn-outline-info{
-  background-color: var(--white);
-  border-color: var(--white);
-}
-
-.btn-outline-info:hover{
-  background-color: var(--primary-color);
-  transition-duration: 100ms;
+  background-color: var(--primary-color
+  );
+  border: 2px solid;
   border-color: var(--secondary-color);
-}
-
-.input-group-btn {
-  background-color: white;
-}
-
-.list-group-item {
-  border: none;
-  background-color: var(--primary-color);
-}
-
-.modal {
-  text-align: center
-}
-
-.pokemon-img {
-  width: 200px;
-  height: 200px;
-}
-
-.modal-dialog {
-  border: 10px solid;
   border-radius: 15px;
+  color: black;
+  height: 180px;
+  margin: 24px auto;
+  padding: 20px;
+  text-decoration: none;
+  transition: 200 transform ease-in-out, 200 background-color ease-in-out;
+  width: 180px;
 }
 
-.form-control {
-  padding: 0
+.pokemon-button:hover, .pokemon-button:focus {
+  background-color: var(--tertiary-color);
+  cursor: grab;
+  transform: scale(1.075);
 }

@@ -1,8 +1,12 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
+
   let printedList = document.querySelector(".pokemon-list");
-  let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=30";
+
+  let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
+
   let inputField = document.querySelector(".search");
+
   let pokemonModal = document.querySelector(".modal-dialog");
 
   // function to add loading spinner
@@ -14,7 +18,7 @@ let pokemonRepository = (function () {
     loadingSpinner.classList.add("spinner-border");
     loadingSpinner.setAttribute("role", "status");
 
-    let spinnerText = document.createElement("div");
+    let spinnerText = document.createElement("span");
     spinnerText.classList.add("sr-only");
     spinnerText.innerText = "Finding Pokemon...";
 
@@ -97,10 +101,10 @@ let pokemonRepository = (function () {
   }
 
   // function adds pokemon to the list
-  function addListItem(pokemon) {
+  function addListPokemon(pokemon) {
     loadDetails(pokemon).then(function () {
-      let listItem = document.createElement("li");
-      listItem.classList.add("col");
+      let listPokemon = document.createElement("li");
+      listPokemon.classList.add("col");
 
       let button = document.createElement("button");
       let buttonText = document.createElement("h2");
@@ -113,8 +117,8 @@ let pokemonRepository = (function () {
       button.setAttribute("data-target", ".modal");
 
       let pokemonImage = document.createElement("img");
-      pokemonImage.src = pokemon.ImageUrl;
-      button.appendChild(listItem);
+      pokemonImage.src = pokemon.frontImageUrl;
+      button.appendChild(pokemonImage);
 
       button.addEventListener("click", function () {
         showDetails(pokemon);
@@ -137,27 +141,36 @@ let pokemonRepository = (function () {
     if (filteredList.length === 0) {
       showErrorMessage("No pokemon match your criteria. ");
     } else {
-      filteredList.forEach(addListItem);
+      filteredList.forEach(addListPokemon);
     }
   });
 
   // function loads details of pokemon
-  function loadDetails(item) {
+  function loadDetails(pokemon) {
     let spinnerLocation = document.querySelector(".modal-body");
     showLoadingSpinner(spinnerLocation);
 
-    let url = item.detailsUrl;
+    let url = pokemon.detailsUrl;
     return fetch(url)
       .then(function (response) {
         return response.json();
       })
       .then(function (details) {
-        item.imageUrl = details.sprites.front_default;
-        item.height = details.height;
-        item.types = details.types.map((type) => type.type.name);
-        item.abilities = details.abilities.map(
-          (abilities) => abilities.ability.name
-        );
+        hideLoadingSpinner(spinnerLocation);
+        pokemon.frontImageUrl = details.sprites.front_default;
+        pokemon.height = details.height;
+
+        let arrayOfTypes = [];
+        details.types.forEach(function (item) {
+          arrayOfTypes.push(item.type.name);
+        });
+        pokemon.types = arrayOfTypes.join(", ");
+
+        let arrayOfAbilities = [];
+        details.abilities.forEach(function (item) {
+          arrayOfAbilities.push(item.ability.name);
+        });
+        pokemon.abilities = arrayOfAbilities.join(", ");
       })
       .catch(function (e) {
         console.error(e);
@@ -176,9 +189,9 @@ let pokemonRepository = (function () {
       nameElement.innerText =
         pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
 
-      let imageElement = document.createElement("img");
-      imageElement.classList.add("modal-img");
-      imageElement.src = pokemon.imageUrl;
+      let imageElementFront = document.createElement("img");
+      imageElementFront.classList.add("modal-img");
+      imageElementFront.src = pokemon.frontImageUrl;
 
       let modalText = document.createElement("div");
       modalText.classList.add("modal-text");
@@ -193,6 +206,7 @@ let pokemonRepository = (function () {
       abilitiesElement.innerText = "Abilities: " + pokemon.abilities;
 
       modalBody.append(imageElement);
+      modalBody.append(modalText);
       modalBody.append(heightElement);
       modalBody.append(typesElement);
       modalBody.append(abilitiesElement);
@@ -214,7 +228,7 @@ let pokemonRepository = (function () {
     showErrorMessage: showErrorMessage,
     loadList: loadList,
     getAll: getAll,
-    addListItem: addListItem,
+    addListPokemon: addListPokemon,
     filterPokemon: filterPokemon,
     loadDetails: loadDetails,
     showDetails: showDetails,
@@ -222,7 +236,9 @@ let pokemonRepository = (function () {
 })();
 
 pokemonRepository.loadList().then(function () {
-  pokemonRepository.getAll().forEach(function (pokemon) {
-    pokemonRepository.addListItem(pokemon);
-  });
+  function printList(pokemon) {
+    pokemonRepository.addListPokemon(pokemon);
+  }
+
+  pokemonRepository.getAll().forEach(printList);
 });

@@ -22,8 +22,8 @@ body {
 
 h1 {
   text-align: center;
-  font-size: 50px;
-  font-weight: 700;
+  font-size: 5rem;
+  font-weight:700;
 }
 
 h2 {
@@ -33,42 +33,51 @@ h2 {
   margin: 0;
 }
 
-li {
-  display: flex;
-  justify-content: center;
-}
 
 .list-group-item {
-  display: flex;
+  display: grid;
   border: none;
+  padding: none;
+;
+}
+
+.list-group {
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-content {
   background-color: var(--white);
-  border: 7px solid;
-  border-color:  var(--fourth-color);  
+  border: 9px solid; 
   border-radius: 15px;
   color: var(--black);
   height: 400px;
   margin: auto;
-  padding: 20px;
+
   touch-action: pinch-zoom;
-  width: 300px;
+  width: 350px;
+}
+
+.modal {
+  margin-top: 200px;
 }
 
 .modal-header {
   border: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 3px;
+  background-color: #FF9551;
 }
 
 .modal-title {
   font-size: 24px;
 }
 
-.modal-img{
+img{
   margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
   width: 50%;
+  height: 125px;
+  margin-left: 25px;
 }
 
 .modal-text {
@@ -85,16 +94,15 @@ li {
 .pokemon-button {
   background-color: var(--primary-color
   );
-  border: 2px solid;
+  border: 3px solid;
   border-color: var(--secondary-color);
   border-radius: 15px;
   color: black;
-  height: 180px;
-  margin: 24px auto;
+  width: 50%;
+  margin:  auto;
   padding: 20px;
   text-decoration: none;
   transition: 200 transform ease-in-out, 200 background-color ease-in-out;
-  width: 180px;
 }
 
 .pokemon-button:hover, .pokemon-button:focus {

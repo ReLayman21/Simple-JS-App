@@ -99,8 +99,22 @@ let pokemonRepository = (function () {
 
     let height = $("<p>" + "Height: " + heightDisplay(pokemon.height) + "</p>");
     let image = $('<img class="pokemon-img" src="' + pokemon.imageUrl + '" />');
-    let types = $("<p>" + "Types: " + pokemon.types + "</p>");
-    let abilities = $("<p>" + "Abilities: " + pokemon.abilities + "</p>");
+    let types = $(
+      "<p>" +
+        "Types: " +
+        displayString(pokemon.types[0]) +
+        ", " +
+        pokemon.types[1] +
+        "</p>"
+    );
+    let abilities = $(
+      "<p>" +
+        "Abilities: " +
+        displayString(pokemon.abilities[0]) +
+        ", " +
+        displayString(pokemon.abilities[1]) +
+        "</p>"
+    );
 
     modalBody.append(image);
     modalBody.append(height);
